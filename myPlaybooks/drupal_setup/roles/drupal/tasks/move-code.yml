@@ -1,0 +1,8 @@
+- name: Clone Platform
+  git: > 
+  repo=git@github.com:SLACNationalAcceleratorLaboratory/{codebase}.git
+    dest=/var/aegir/platforms/{platform}""
+    update=no
+
+- name: Add Site
+ 

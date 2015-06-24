@@ -1,0 +1,25 @@
+---
+- name: Check if local Drush configuration folder exists.
+  stat:
+    path: ~/.drush
+  register: local_drush_config_folder
+  delegate_to: 127.0.0.1
+  sudo: no
+  when: configure_local_drush_aliases
+
+- name: Create Drush configuration folder if it doesn't exist.
+  file:
+    path: ~/.drush
+    state: directory
+  delegate_to: 127.0.0.1
+  sudo: no
+  when: configure_local_drush_aliases and (local_drush_config_folder.stat.exists == false)
+
+
+- name: Configure host machine drush aliases.
+  template:
+    src: ../templates/drupalvm.aliases.drushrc.php.j2
+    dest: ~/.drush/drupalvm.aliases.drushrc.php
+  delegate_to: 127.0.0.1
+  sudo: no
+  when: configure_local_drush_aliases
